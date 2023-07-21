@@ -67,7 +67,7 @@
       </div>
     </div>
 
-    <div class="container">
+    <div class="container" sec:authorize="hasRole('ADMIN')">
       <a th:href="@{/item/admin/showFormForAdd}" class="btn btn-primary ">Add item</a>
       <a th:href="@{/item/admin/showFormForSell}" class="btn btn-info">Sell items</a>
     </div>
