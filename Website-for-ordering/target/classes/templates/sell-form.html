@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Result item</title>
+
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
+
+</head>
+<body>
+
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+  <div class="collapse navbar-collapse" id="navbarNav">
+    <ul class="navbar-nav">
+      <li class="nav-item">
+        <a class="navbar-brand active" th:href="@{/item/home}">Home</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" th:href="@{/item/page(category=Food)}">Food</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" th:href="@{/item/page(category=Furniture)}">Furniture</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" th:href="@{/item/page(category=Electronic)}">Electronic</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" th:href="@{/item/page(category=Other)}">Other</a>
+      </li>
+    </ul>
+    <form action="#" th:action="@{/item/searchForItem}"
+          method="post"  th:object="${searchItem}" class="form-inline my-2 my-lg-0">
+      <input type="text" th:field="*{name}"  placeholder="Search" >
+      <button type="submit" class="btn btn-outline-success my-2 my-sm-0"><img width="20px" height="20px" src="https://www.citypng.com/public/uploads/preview/white-search-icon-button-png-img-116400840301syqkherpj.png?v=2023070523"></button>
+    </form>
+    <a th:href="@{/item/showBasket2}"  style="margin-left:1100px">
+      <img src="https://media.istockphoto.com/id/639201180/vector/shopping-cart-icon.jpg?s=612x612&w=0&k=20&c=AIDue0uA36lvIYf4gstcMYqcIwCK_p3_RQb0EQv9XsI=" width="80px" height="55px">
+    </a>
+    <form action="#" th:action="@{/logout}"
+          method="post">
+
+      <button type="submit" class="btn btn-danger" style="margin-left: 50px">Logout</button>
+
+    </form>
+  </div>
+</nav>
+
+<form action="#" th:action="@{/item/admin/showFormForSell2}"
+      method="post" th:object="${emptyItem}" class="form-inline my-2 my-lg-0">
+  <i>Search For Item By ID: </i>
+  <input type="text" th:field="*{id}"  placeholder="Enter ID" >
+
+  <button type="submit" class="btn btn-outline-success my-2 my-sm-0">Search</button>
+</form>
+
+  <form action="#" th:action="@{/item/admin/sellItem}"  method="post" th:object="${order}">
+  <br><br>
+
+<table class="table table-bordered table-striped" >
+
+  <thead class="table-dark">
+
+  <tr>
+    <th>ID</th>
+    <th>Item Name</th>
+    <th>Quantity</th>
+  </tr>
+
+  </thead>
+
+  <tbody>
+
+  <tr th:each="tempItem : ${order.itemList}">
+    <td><input readonly class="form-control-plaintext" type="number" th:field="${order.itemList[__${tempItemStat.index}__].id}"></td>
+    <td><input readonly class="form-control-plaintext" type="text" th:field="${order.itemList[__${tempItemStat.index}__].name}"></td>
+    <td>
+
+
+      <input type="number" placeholder="Quantity"   th:field="${order.itemList[__${tempItemStat.index}__].quantity}">
+
+    </td>
+  </tr>
+
+  </tbody>
+
+</table>
+
+      <button type="submit" class="btn btn-outline-danger"  name="btnSell">Sell</button>
+  </form>
+
+</body>
+</html>
