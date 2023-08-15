@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Main Page</title>
+
+  <link rel="stylesheet" href="../static/profile.css">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
+  <link rel="icon" href="https://www.cspm.org/wp-content/uploads/2020/04/Y-tile-e1588095271345.png" type="image/x-icon">
+  <style>
+    .post{
+      width: 1000px;
+      border: lightgray 0.1em solid;
+      padding: 15px;
+      background-color: white
+    }
+    .black{
+      background-color: black;
+    }
+    .nickName:hover{
+      text-decoration: black underline;
+
+    }
+  </style>
+
+</head>
+<body class="black">
+
+    <nav class="navbar navbar-expand-lg navbar-dark black" style="border-bottom: gray 0.05em solid">
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav">
+          <li class="nav-item">
+            <img src="https://www.cspm.org/wp-content/uploads/2020/04/Y-tile-e1588095271345.png" alt="logo" width="65px" height="100%">
+          </li>
+          <li class="nav-item">
+            <a class="nav-link active" th:href="@{/main/home}" style="font-size: 2em">Main</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link " th:href="@{/profile/home}" style="font-size: 2em">Profile</a>
+          </li>
+        </ul>
+        <form action="#" th:action="@{/main/searchForUser}"
+              method="post"  th:object="${searchUser}" class="form-inline my-2 my-lg-0">
+          <input type="text" th:field="*{username}"  placeholder="Search" >
+          <button type="submit" class="btn btn-outline-success my-2 my-sm-0"><img width="20px" height="20px" src="https://www.citypng.com/public/uploads/preview/white-search-icon-button-png-img-116400840301syqkherpj.png?v=2023070523"></button>
+        </form>
+        <form action="#" th:action="@{/logout}"
+              method="post">
+
+          <button type="submit" class="btn btn-danger" style="right: 0px;top: 5px; position: absolute">Logout</button>
+
+        </form>
+      </div>
+    </nav>
+
+
+<div class="container" style="display: flex; align-items: center; justify-content: center">
+  <div>
+    <div class="post" th:each="tempPost : ${sortPost}">
+        <div>
+          <p>
+            <a th:href="@{/profile/home2(username=*{tempPost.username})}" style="text-decoration: none; color: black">
+              <img th:src="*{tempPost.avatar}" style="border-radius: 50%" width="50px" height="50px">
+              <em th:text="*{tempPost.nickName}" style="font-size: 1.2pc;" class="nickName"></em>
+              <em th:text="'@' + (*{tempPost.username})" style="font-size: 1.2pc; color: dimgray"></em>
+            </a>
+          </p>
+          <a th:href="@{/profile/postDetails(postId=${tempPost.id},username=${tempPost.username})}" style="text-decoration: none; color: black">
+            <div>
+              <p th:text="${tempPost.text}" style="font-size: 1.5pc"></p>
+              <p th:if="(${tempPost.image} != null)"><img th:src="${tempPost.image}" width="150px" height="150px"></p>
+            </div>
+          </a>
+          <a th:href="@{/profile/showFormForAddReply(postId=${tempPost.id})}"><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS6B3mH54T34YOxPA5zeVyPSFDVcnuWDpLYaA&usqp=CAU" width="50px" height="50px"></a>
+          <i th:text="${tempPost.replies.size()}"></i>
+          <a th:if="!(${tempPost.isLiked(currentUser.username,tempPost.id)})" th:href="@{/profile/addLike(postId=${tempPost.id}, username=${currentUser.username})}"><img src="https://static.thenounproject.com/png/2473091-200.png" width="40px" height="40px" style="margin-left: 790px"></a>
+          <a th:if="(${tempPost.isLiked(currentUser.username,tempPost.id)})" th:href="@{/profile/removeLike(postId=${tempPost.id}, username=${currentUser.username})}"><img src="https://cdn.pixabay.com/photo/2020/09/30/07/48/heart-5614865_1280.png" width="40px" height="40px" style="margin-left: 790px"></a>
+          <i th:text="${tempPost.getLikes().size()}"></i>
+        </div>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>
