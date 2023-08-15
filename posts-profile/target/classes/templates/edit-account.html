@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Edit account</title>
+
+  <link rel="stylesheet" href="../static/profile.css">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
+  <link rel="icon" href="https://www.cspm.org/wp-content/uploads/2020/04/Y-tile-e1588095271345.png" type="image/x-icon">
+  <style>
+    .black{
+      background-color: black;
+    }
+  </style>
+
+</head>
+<body class="black">
+
+    <nav class="navbar navbar-expand-lg navbar-dark black" style="border-bottom: gray 0.05em solid">
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav">
+          <li class="nav-item">
+            <img src="https://www.cspm.org/wp-content/uploads/2020/04/Y-tile-e1588095271345.png" alt="logo" width="65px" height="100%">
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" th:href="@{/main/home}" style="font-size: 2em">Main</a>
+          </li>
+          <li class="nav-item">
+            <a th:if="(${user.username}) == (${currentUser.username})" class="nav-link active" th:href="@{/profile/home}" style="font-size: 2em">Profile</a>
+            <a th:if="(${user.username}) != (${currentUser.username})" class="nav-link" th:href="@{/profile/home}" style="font-size: 2em">Profile</a>
+          </li>
+        </ul>
+        <form action="#" th:action="@{/main/searchForUser}"
+              method="post"  th:object="${searchUser}" class="form-inline my-2 my-lg-0">
+          <input type="text" th:field="*{username}"  placeholder="Search" >
+          <button type="submit" class="btn btn-outline-success my-2 my-sm-0"><img width="20px" height="20px" src="https://www.citypng.com/public/uploads/preview/white-search-icon-button-png-img-116400840301syqkherpj.png?v=2023070523"></button>
+        </form>
+        <form action="#" th:action="@{/logout}"
+              method="post">
+
+          <button type="submit" class="btn btn-danger" style="right: 0px;top: 5px; position: absolute">Logout</button>
+
+        </form>
+      </div>
+    </nav>
+
+  <div class="container" >
+
+    <h3 style="color: white">Update account</h3>
+    <hr>
+    <form action="#" th:action="@{/profile/updateUser}" th:object="${user}" method="post">
+
+      <input type="hidden" th:field="*{username}">
+      <input type="hidden" th:field="*{active}">
+      <input type="hidden" th:field="*{password}">
+      <input type="text" th:field="*{nickName}" placeholder="Nickname" class="form-control mb-4 w-50">
+      <input type="text" th:field="*{image}" placeholder="URL of avatar" class="form-control mb-4 w-50">
+      <input type="email" th:field="*{email}" placeholder="Email" class="form-control mb-4 w-50">
+      <input type="text" th:field="*{about}" placeholder="About" class="form-control mb-4 w-50">
+
+      <button type="submit" class="btn btn-primary btn-lg">Save</button>
+
+    </form>
+
+  </div>
+
+</body>
+</html>
